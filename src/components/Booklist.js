@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ApolloClient from 'apollo-boost';
 
 class Booklist extends Component {
   render() {
