@@ -1,41 +1,45 @@
 import React, { Component } from 'react';
-import { graphql } from 'react-apollo';
-import { getAuthorsQuery, getBooksQuery } from './../queries/queries';
+import { graphql, compose } from 'react-apollo';
+import { getAuthorsQuery, addBookMutation, getBooksQuery } from '../queries/queries';
 
-class AddBook extends Component {
-  constructor(props){
+class AddBook  extends Component {
+  constructor(props) {
     super(props);
-    this.state={
-
-      name    : '',
-      genre   : '',
-      authorId: '',
+    this.state = {
+      name    : "",
+      genre   : "",
+      authorId: "",
     };
   }
-  displayAuthors() {
-    const data = this.props.data;
 
-    if (data) {
+  displayAuthors() {
+    const { data } = this.props;
+
+    console.log(data);
+
+    if (!data.authors) {
       return <option disabled>loading...</option>;
     }
- 
+
     return data.authors.map(author => {
       return ( <option key={ author.id } value={ author.id}>{ author.name }</option> );
     });
-  }  
+  }
 
-  submitForm(event) {
-    event.preventDefault();
-
-    console.log(this.state); 
+  submitForm(e) {
+    e.preventDefault();
+    // this.props.addBookMutation({
+    //   variables: {
+    //     name    : this.state.name,
+    //     genre   : this.state.genre,
+    //     authorId: this.state.authorId,
+    //   },
+    //   refetchQueries: [{ query: getBooksQuery }],
+    // });
+    console.log(this.state);
   }
 
   render() {
-    if(this.props.data.loading){
-      return <div>loading</div>;
-    }
-    // console.log(this.props.data.books);
-  
     return (
       <form id="add-book" onSubmit={ this.submitForm.bind(this) }>
         <div className="field">
@@ -58,5 +62,5 @@ class AddBook extends Component {
     );
   }
 }
-
+  
 export default graphql(getAuthorsQuery)(AddBook);

@@ -25,7 +25,6 @@ class Booklist extends Component {
     if(this.props.data.loading){ 
       return <div>loading</div>;
     } 
-    // console.log(this.props.data.books);
 
     return (
       <div className="App">
